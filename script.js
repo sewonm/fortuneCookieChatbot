@@ -1,16 +1,31 @@
-const apiKey = 'sk-NfyU6HVi1BMLXbxE6B_4Ez0BFU-rsWUSjN2IYRAhmgT3BlbkFJAV00TDGYhvOGWaxQM14UltnpQSD0rtq51BPis3Iu0A'; // Replace with your OpenAI API key
+const apiKey = 'sk-NfyU6HVi1BMLXbxE6B_4Ez0BFU-rsWUSjN2IYRAhmgT3BlbkFJAV00TDGYhvOGWaxQM14UltnpQSD0rtq51BPis3Iu0A'; 
 
 document.getElementById('send-btn').addEventListener('click', sendMessage);
 document.getElementById('user-input').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') sendMessage();
 });
+document.getElementById('user-input').addEventListener('input', openCookie);
 
-// Fortune cookie introduction on page load
+let closeTimeout;
+
 window.onload = function() {
     const introMessage = `Welcome, seeker of wisdom! I am your digital fortune cookie. Ask me anything, and I will give you short and sweet words of wisdom, just like the fortunes you find in your favorite cookies.`;
-
     displayMessage(introMessage, 'bot');
 };
+
+// Open the fortune cookie when user starts typing
+function openCookie() {
+    const cookieImg = document.getElementById('fortune-cookie');
+    cookieImg.src = 'open-cookie.png'; // Path to the open fortune cookie image
+
+    // Clear previous close timeout if user is actively typing
+    clearTimeout(closeTimeout);
+
+    // Set a timeout to close the cookie if the user stops typing for 3 seconds
+    closeTimeout = setTimeout(() => {
+        cookieImg.src = 'closed-cookie.png'; // Path to the closed fortune cookie image
+    }, 3000);
+}
 
 async function sendMessage() {
     const userInput = document.getElementById('user-input').value;
@@ -45,6 +60,13 @@ async function sendMessage() {
     }
 
     document.getElementById('user-input').value = '';
+
+    // Keep the cookie open after a message is sent for a short moment before closing it
+    const cookieImg = document.getElementById('fortune-cookie');
+    cookieImg.src = 'open-cookie.png';
+    setTimeout(() => {
+        cookieImg.src = 'closed-cookie.png';
+    }, 3000);
 }
 
 function displayMessage(message, sender) {
