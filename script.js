@@ -33,6 +33,9 @@ async function sendMessage() {
 
     displayMessage(userInput, 'user');
 
+    // Open the fortune cookie when the user submits their input
+    openCookie();
+
     // Add personality traits in the prompt for the fortune cookie
     const fortuneCookiePrompt = `You are a wise fortune cookie. Respond with short, cryptic, yet thoughtful fortunes, just like a message someone would find inside a fortune cookie. The user has asked: "${userInput}"`;
 
