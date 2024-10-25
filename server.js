@@ -1,37 +1,56 @@
-async function sendMessage() {
-    const userInput = document.getElementById('user-input').value;
-    if (!userInput) return;
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
+const path = require('path');
+require('dotenv').config();
 
-    displayMessage(userInput, 'user');
+const app = express();
+const PORT = process.env.PORT || 5004;
 
-    // Open the fortune cookie only when user submits a message
-    openCookie();
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Serve static files from the root directory
+app.use(express.static(path.join(__dirname)));
+
+// Default route to serve index.html from the root directory
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// API route to handle requests from the frontend
+app.post('/api/chat', async (req, res) => {
+    const userMessage = req.body.message;
 
     try {
-        // Use a relative path for the API endpoint, which works on both localhost and deployed environments
-        const response = await fetch('/api/chat', {
-            method: 'POST',
+        const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: 'gpt-3.5-turbo',
+            messages: [
+                { role: 'system', content: 'You are a fortune cookie that gives short, wise, and cryptic fortunes.' },
+                { role: 'user', content: `You are a wise fortune cookie. Respond with short, cryptic, yet thoughtful fortunes. The user has asked: "${userMessage}"` }
+            ]
+        }, {
             headers: {
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: userInput })
+            }
         });
 
-        const data = await response.json();
+        console.log('API Response:', JSON.stringify(response.data, null, 2)); // Log the API response
 
-        // Log the full response data for debugging
-        console.log("Full API response from server:", data);
-
-        // Check if the response has the expected content
-        if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-            displayMessage(data.choices[0].message.content, 'bot');
-        } else {
-            displayMessage("The fortune cookie is silent... Please try again.", 'bot');
-        }
+        res.json(response.data); // Send the response back to the client
     } catch (error) {
-        console.error("Error fetching response:", error);
-        displayMessage("The fortune cookie encountered an error. Please try again.", 'bot');
+        // Log detailed error message
+        if (error.response) {
+            console.error('Error response from OpenAI:', error.response.data);
+            res.status(500).json({ error: `Error response from OpenAI: ${JSON.stringify(error.response.data)}` });
+        } else {
+            console.error('Error connecting to OpenAI:', error.message);
+            res.status(500).json({ error: `Error connecting to OpenAI: ${error.message}` });
+        }
     }
+});
 
-    document.getElementById('user-input').value = '';
-}
+// Start the server
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
