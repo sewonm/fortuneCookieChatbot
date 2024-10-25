@@ -4,9 +4,9 @@ document.getElementById('user-input').addEventListener('keypress', function (e) 
 });
 
 window.onload = function() {
-    // Update the intro message to be purely informational with no "Hello" greeting
+    // Updated intro message without the "Hello"
     const introMessage = `Welcome, seeker of wisdom! I am your digital fortune cookie. Ask me anything, and I will give you short and sweet words of wisdom, just like the fortunes you find in your favorite cookies.`;
-    displayMessage(introMessage, 'bot'); // This message is more like an intro, not a "Hello!"
+    displayMessage(introMessage, 'bot');
 };
 
 // Only trigger openCookie when the message is submitted
@@ -30,8 +30,8 @@ function openCookie() {
                 setTimeout(() => {
                     cookieImg.style.opacity = '1'; // Fade back in
                 }, 100);
-            }, 500); 
-        }, 5000); 
+            }, 500);
+        }, 5000);
     }, 500);
 }
 
@@ -45,7 +45,8 @@ async function sendMessage() {
     openCookie();
 
     try {
-        const response = await fetch('http://localhost:5004/api/chat', {
+        // Use a relative path for the API endpoint, which works on both localhost and deployed environments
+        const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
