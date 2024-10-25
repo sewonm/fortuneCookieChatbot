@@ -1,4 +1,4 @@
-const apiKey = 'sk-NfyU6HVi1BMLXbxE6B_4Ez0BFU-rsWUSjN2IYRAhmgT3BlbkFJAV00TDGYhvOGWaxQM14UltnpQSD0rtq51BPis3Iu0A'; // Replace with your OpenAI API key
+const apiKey = 'sk-NfyU6HVi1BMLXbxE6B_4Ez0BFU-rsWUSjN2IYRAhmgT3BlbkFJAV00TDGYhvOGWaxQM14UltnpQSD0rtq51BPis3Iu0A'; //OpenAI API
 
 document.getElementById('send-btn').addEventListener('click', sendMessage);
 document.getElementById('user-input').addEventListener('keypress', function (e) {
@@ -11,15 +11,33 @@ window.onload = function() {
     displayMessage(introMessage, 'bot');
 };
 
-// Function to open the fortune cookie when user submits
+// Smoothly switch the cookie image to "open" or "closed"
 function openCookie() {
     const cookieImg = document.getElementById('fortune-cookie');
-    cookieImg.src = 'FCOpen.jpg'; // Path to the open fortune cookie image
-
-    // Set a timeout to close the cookie after 5 seconds
+    
+    // Fade out (set opacity to 0)
+    cookieImg.style.opacity = '0';
+    
+    // Wait for the fade-out to complete before changing the image source
     setTimeout(() => {
-        cookieImg.src = 'FCClosed.avif'; // Path to the closed fortune cookie image
-    }, 5000); // 5 seconds
+        cookieImg.src = 'FCOpen.jpg'; // Change to open cookie image
+        
+        // Fade back in (set opacity to 1)
+        setTimeout(() => {
+            cookieImg.style.opacity = '1';
+        }, 100); // Small delay to ensure image loads before fading in
+
+        // After 5 seconds, fade out and switch back to closed cookie
+        setTimeout(() => {
+            cookieImg.style.opacity = '0';
+            setTimeout(() => {
+                cookieImg.src = 'FCClosed.avif'; // Change back to closed cookie image
+                setTimeout(() => {
+                    cookieImg.style.opacity = '1'; // Fade back in
+                }, 100); // Small delay to fade in after the image switch
+            }, 500); // Time to switch the image during fade-out
+        }, 5000); // 5 seconds delay to close the cookie after opening
+    }, 500); // Wait for fade-out to complete before changing the image
 }
 
 async function sendMessage() {
