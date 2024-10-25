@@ -31,7 +31,7 @@ function openCookie() {
         setTimeout(() => {
             cookieImg.style.opacity = '0';
             setTimeout(() => {
-                cookieImg.src = 'FCClosed.avif'; // Change back to closed cookie image
+                cookieImg.src = 'FCClosed.avif.png'; // Change back to closed cookie image
                 setTimeout(() => {
                     cookieImg.style.opacity = '1'; // Fade back in
                 }, 100); // Small delay to fade in after the image switch
