@@ -71,3 +71,9 @@ button:hover {
     background-color: #f1f1f1;
     text-align: left;
 }
+
+#fortune-cookie {
+    width: 150px;
+    transition: opacity 0.5s ease; /* Smooth transition for opacity */
+    opacity: 1; /* Default state */
+}
