@@ -16,15 +16,30 @@ window.onload = function() {
 // Open the fortune cookie when user starts typing
 function openCookie() {
     const cookieImg = document.getElementById('fortune-cookie');
-    cookieImg.src = 'open-cookie.png'; // Path to the open fortune cookie image
+    
+    // Fade out (set opacity to 0)
+    cookieImg.style.opacity = '0';
+    
+    // Wait for the fade-out to complete before changing the image source
+    setTimeout(() => {
+        cookieImg.src = 'FCOpen.jpg'; // Change to open cookie image
+        
+        // Fade back in (set opacity to 1)
+        setTimeout(() => {
+            cookieImg.style.opacity = '1';
+        }, 100); // Small delay to ensure image loads before fading in
 
-    // Clear previous close timeout if user is actively typing
-    clearTimeout(closeTimeout);
-
-    // Set a timeout to close the cookie if the user stops typing for 3 seconds
-    closeTimeout = setTimeout(() => {
-        cookieImg.src = 'closed-cookie.png'; // Path to the closed fortune cookie image
-    }, 3000);
+        // After 5 seconds, fade out and switch back to closed cookie
+        setTimeout(() => {
+            cookieImg.style.opacity = '0';
+            setTimeout(() => {
+                cookieImg.src = 'FCClosed.avif.png'; // Change back to closed cookie image
+                setTimeout(() => {
+                    cookieImg.style.opacity = '1'; // Fade back in
+                }, 100); // Small delay to fade in after the image switch
+            }, 500); // Time to switch the image during fade-out
+        }, 5000); // 5 seconds delay to close the cookie after opening
+    }, 500); // Wait for fade-out to complete before changing the image
 }
 
 async function sendMessage() {

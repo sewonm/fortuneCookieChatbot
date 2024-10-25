@@ -1,111 +1,111 @@
-.desktop {
-    background-color: #f3c682;
+body {
+    font-family: 'Noto Sans', Arial, sans-serif; /* Use a more elegant font */
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    width: 100%;
-  }
-  
-  .desktop .overlap-group-wrapper {
-    background-color: #f3c682;
-    overflow: hidden;
-    width: 1440px;
-    height: 1024px;
-  }
-  
-  .desktop .overlap-group {
-    position: relative;
-    width: 1915px;
-    height: 1024px;
-  }
-  
-  .desktop .image {
-    width: 1440px;
-    height: 1024px;
-    top: 0;
-    left: 0;
-    position: absolute;
-    object-fit: cover;
-  }
-  
-  .desktop .text-wrapper {
-    position: absolute;
-    width: 1756px;
-    top: 62px;
-    left: 159px;
-    text-shadow: 0px 4px 4px #00000040;
-    -webkit-text-stroke: 1px #000000;
-    font-family: "Sixtyfour-Maximum", Helvetica;
-    font-weight: 400;
-    color: #fbd685;
-    font-size: 64px;
-    letter-spacing: 0;
-    line-height: normal;
-  }
-  
-  .desktop .img {
-    width: 963px;
-    height: 629px;
-    top: 366px;
-    left: 206px;
-    position: absolute;
-    object-fit: cover;
-  }
-  
-  .desktop .frame {
-    position: absolute;
-    width: 864px;
-    height: 132px;
-    top: 224px;
-    left: 320px;
-  }
-  
-  .desktop .div {
-    position: absolute;
-    width: 638px;
-    top: 34px;
-    left: 66px;
-    font-family: "Sintony-Regular", Helvetica;
-    font-weight: 400;
-    color: #000000;
-    font-size: 40px;
-    letter-spacing: 0;
-    line-height: normal;
-  }
-  
-  .desktop .rectangle {
-    position: absolute;
-    width: 898px;
-    height: 226px;
-    top: 177px;
-    left: 286px;
-    background-color: #f9f1b3;
-    border-radius: 10px;
-  }
-  
-  .desktop .text-wrapper-2 {
-    position: absolute;
-    width: 938px;
-    top: 265px;
-    left: 400px;
-    font-family: "Silkscreen-Regular", Helvetica;
-    font-weight: 400;
-    color: #000000;
-    font-size: 48px;
-    letter-spacing: 0;
-    line-height: normal;
-  }
-  
-  .desktop .text-wrapper-3 {
-    position: absolute;
-    width: 229px;
-    top: 176px;
-    left: 286px;
-    font-family: "Silkscreen-Regular", Helvetica;
-    font-weight: 400;
-    color: #000000;
-    font-size: 24px;
-    letter-spacing: 0;
-    line-height: normal;
-  }
-  
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('red-checkered-fabric-texture-background_469558-16473.avif'); /* Background image */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+}
+
+/* Container for the layout */
+.container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 239, 204, 0.9); /* Light beige background */
+    border-radius: 30px; /* Rounded corners */
+    padding: 20px; /* Added padding */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    border: 5px solid #b22222; /* Dark red border */
+}
+
+/* Cookie image */
+#fortune-cookie {
+    width: 500px; /* Adjust size as needed */
+    margin: 0 20px; /* Added margin for spacing */
+}
+
+/* Title */
+.title {
+    font-size: 20px; /* Size of the title */
+    color: #b22222; /* Dark red color for the title */
+    margin-bottom: 10px; /* Space below the title */
+    text-align: center; /* Center the title */
+    font-family: 'Press Start 2P', cursive; /* Replace with your chosen font */
+}
+
+/* Chat container */
+.chat-container {
+    width: 400px; /* Fixed width for chat container */
+    background-color: #fff0e6; /* Light background for chatbox */
+    border-radius: 20px; /* Rounded corners */
+    padding: 20px; /* Increased padding */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Soft shadow */
+}
+
+/* Chatbox area */
+.chat-box {
+    height: 300px; /* Fixed height */
+    overflow-y: auto;
+    border: none; /* Removed border */
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff; /* Background color for chatbox */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow */
+}
+
+/* Input area styling */
+.input-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Input styling */
+input[type="text"] {
+    width: calc(100% - 70px); /* Adjusted input width */
+    padding: 10px; /* Increased padding */
+    border: 1px solid #b22222; /* Dark red border */
+    border-radius: 20px; /* Increased border radius */
+    margin-right: 10px; /* Increased margin */
+    outline: none; /* Removed outline */
+    transition: border 0.3s; /* Added transition for focus effect */
+}
+
+input[type="text"]:focus {
+    border: 2px solid #f08080; /* Light red for focus */
+}
+
+/* Button styling */
+button {
+    padding: 10px 15px; /* Increased padding */
+    background-color: #b22222; /* Button color */
+    color: white; /* Text color */
+    border: none; /* Removed border */
+    border-radius: 20px; /* Increased border radius */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Added transition */
+}
+
+button:hover {
+    background-color: #f08080; /* Lighter red on hover */
+}
+
+/* Message bubbles */
+.message {
+    padding: 10px; /* Increased padding */
+    margin-bottom: 10px; /* Increased margin */
+    border-radius: 15px; /* Increased border radius */
+}
+
+.message.user {
+    background-color: #ffe4e1; /* Light user message bubble color */
+    text-align: right; /* Align text to the right */
+}
+
+.message.bot {
+    background-color: #f5deb3; /* Light bot message bubble color */
+    text-align: left; /* Align text to the left */
+}
