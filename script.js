@@ -1,30 +1,25 @@
-const apiKey = 'sk-NfyU6HVi1BMLXbxE6B_4Ez0BFU-rsWUSjN2IYRAhmgT3BlbkFJAV00TDGYhvOGWaxQM14UltnpQSD0rtq51BPis3Iu0A'; 
+const apiKey = 'sk-NfyU6HVi1BMLXbxE6B_4Ez0BFU-rsWUSjN2IYRAhmgT3BlbkFJAV00TDGYhvOGWaxQM14UltnpQSD0rtq51BPis3Iu0A'; // Replace with your OpenAI API key
 
 document.getElementById('send-btn').addEventListener('click', sendMessage);
 document.getElementById('user-input').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') sendMessage();
 });
-document.getElementById('user-input').addEventListener('input', openCookie);
 
-let closeTimeout;
-
+// Initialize the cookie as closed
 window.onload = function() {
     const introMessage = `Welcome, seeker of wisdom! I am your digital fortune cookie. Ask me anything, and I will give you short and sweet words of wisdom, just like the fortunes you find in your favorite cookies.`;
     displayMessage(introMessage, 'bot');
 };
 
-// Open the fortune cookie when user starts typing
+// Function to open the fortune cookie when user submits
 function openCookie() {
     const cookieImg = document.getElementById('fortune-cookie');
-    cookieImg.src = 'open-cookie.png'; // Path to the open fortune cookie image
+    cookieImg.src = 'FCOpen.jpg'; // Path to the open fortune cookie image
 
-    // Clear previous close timeout if user is actively typing
-    clearTimeout(closeTimeout);
-
-    // Set a timeout to close the cookie if the user stops typing for 3 seconds
-    closeTimeout = setTimeout(() => {
-        cookieImg.src = 'closed-cookie.png'; // Path to the closed fortune cookie image
-    }, 3000);
+    // Set a timeout to close the cookie after 5 seconds
+    setTimeout(() => {
+        cookieImg.src = 'FCClosed.avif'; // Path to the closed fortune cookie image
+    }, 5000); // 5 seconds
 }
 
 async function sendMessage() {
@@ -32,6 +27,9 @@ async function sendMessage() {
     if (!userInput) return;
 
     displayMessage(userInput, 'user');
+
+    // Open the fortune cookie when the user submits their input
+    openCookie();
 
     // Add personality traits in the prompt for the fortune cookie
     const fortuneCookiePrompt = `You are a wise fortune cookie. Respond with short, cryptic, yet thoughtful fortunes, just like a message someone would find inside a fortune cookie. The user has asked: "${userInput}"`;
@@ -60,13 +58,6 @@ async function sendMessage() {
     }
 
     document.getElementById('user-input').value = '';
-
-    // Keep the cookie open after a message is sent for a short moment before closing it
-    const cookieImg = document.getElementById('fortune-cookie');
-    cookieImg.src = 'open-cookie.png';
-    setTimeout(() => {
-        cookieImg.src = 'closed-cookie.png';
-    }, 3000);
 }
 
 function displayMessage(message, sender) {
