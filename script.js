@@ -1,33 +1,26 @@
-const apiKey = 'sk-NfyU6HVi1BMLXbxE6B_4Ez0BFU-rsWUSjN2IYRAhmgT3BlbkFJAV00TDGYhvOGWaxQM14UltnpQSD0rtq51BPis3Iu0A'; 
-
 document.getElementById('send-btn').addEventListener('click', sendMessage);
 document.getElementById('user-input').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') sendMessage();
 });
-document.getElementById('user-input').addEventListener('input', openCookie);
-
-let closeTimeout;
 
 window.onload = function() {
+    // Update the intro message to be purely informational with no "Hello" greeting
     const introMessage = `Welcome, seeker of wisdom! I am your digital fortune cookie. Ask me anything, and I will give you short and sweet words of wisdom, just like the fortunes you find in your favorite cookies.`;
-    displayMessage(introMessage, 'bot');
+    displayMessage(introMessage, 'bot'); // This message is more like an intro, not a "Hello!"
 };
 
-// Open the fortune cookie when user starts typing
+// Only trigger openCookie when the message is submitted
 function openCookie() {
     const cookieImg = document.getElementById('fortune-cookie');
-    
-    // Fade out (set opacity to 0)
     cookieImg.style.opacity = '0';
-    
-    // Wait for the fade-out to complete before changing the image source
+
     setTimeout(() => {
         cookieImg.src = 'FCOpen.jpg'; // Change to open cookie image
-        
-        // Fade back in (set opacity to 1)
+
+        // Fade back in
         setTimeout(() => {
             cookieImg.style.opacity = '1';
-        }, 100); // Small delay to ensure image loads before fading in
+        }, 100);
 
         // After 5 seconds, fade out and switch back to closed cookie
         setTimeout(() => {
@@ -36,10 +29,10 @@ function openCookie() {
                 cookieImg.src = 'FCClosed.avif.png'; // Change back to closed cookie image
                 setTimeout(() => {
                     cookieImg.style.opacity = '1'; // Fade back in
-                }, 100); // Small delay to fade in after the image switch
-            }, 500); // Time to switch the image during fade-out
-        }, 5000); // 5 seconds delay to close the cookie after opening
-    }, 500); // Wait for fade-out to complete before changing the image
+                }, 100);
+            }, 500); 
+        }, 5000); 
+    }, 500);
 }
 
 async function sendMessage() {
@@ -48,43 +41,35 @@ async function sendMessage() {
 
     displayMessage(userInput, 'user');
 
-    // Open the fortune cookie when the user submits their input
+    // Open the fortune cookie only when user submits a message
     openCookie();
 
-    // Add personality traits in the prompt for the fortune cookie
-    const fortuneCookiePrompt = `You are a wise fortune cookie. Respond with short, cryptic, yet thoughtful fortunes, just like a message someone would find inside a fortune cookie. The user has asked: "${userInput}"`;
-
     try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('http://localhost:5004/api/chat', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [
-                    { role: 'system', content: 'You are a fortune cookie that gives short, wise, and cryptic fortunes.' },
-                    { role: 'user', content: fortuneCookiePrompt }
-                ]
-            })
+            body: JSON.stringify({ message: userInput })
         });
 
         const data = await response.json();
-        const botMessage = data.choices[0].message.content;
-        displayMessage(botMessage, 'bot');
+
+        // Log the full response data for debugging
+        console.log("Full API response from server:", data);
+
+        // Check if the response has the expected content
+        if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
+            displayMessage(data.choices[0].message.content, 'bot');
+        } else {
+            displayMessage("The fortune cookie is silent... Please try again.", 'bot');
+        }
     } catch (error) {
-        displayMessage("Hmm, the cookie crumbled... please try again.", 'bot');
+        console.error("Error fetching response:", error);
+        displayMessage("The fortune cookie encountered an error. Please try again.", 'bot');
     }
 
     document.getElementById('user-input').value = '';
-
-    // Keep the cookie open after a message is sent for a short moment before closing it
-    const cookieImg = document.getElementById('fortune-cookie');
-    cookieImg.src = 'open-cookie.png';
-    setTimeout(() => {
-        cookieImg.src = 'closed-cookie.png';
-    }, 3000);
 }
 
 function displayMessage(message, sender) {

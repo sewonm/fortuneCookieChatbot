@@ -1,0 +1,23 @@
+# Ignore environment files (API keys, etc.)
+.env
+
+# Ignore node modules (these can be installed with npm install)
+node_modules/
+
+# Ignore log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore OS-generated files (specific to macOS)
+.DS_Store
+
+# Ignore lock files if you don't want to track them
+package-lock.json
+
+# Ignore system-generated files (specific to Windows)
+Thumbs.db
+
+# Ignore temporary build files
+/dist/
+/build/
