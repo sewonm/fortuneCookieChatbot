@@ -1,0 +1,21 @@
+{
+  "name": "spotify-openai-chatbot",
+  "version": "1.0.0",
+  "description": "A chatbot that integrates Spotify API and OpenAI to provide personalized music-related responses.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "spotify-web-api-node": "^5.0.2",
+    "dotenv": "^8.2.0",
+    "openai": "^3.0.0",
+    "cors": "^2.8.5"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
